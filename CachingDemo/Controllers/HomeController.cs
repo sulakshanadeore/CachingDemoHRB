@@ -19,17 +19,9 @@ namespace CachingDemo.Controllers
         
         public IActionResult Index()
         {
-            
-           // _cache.Set(cacheKey,"Welcome to app");
-            if (_cache.TryGetValue(cacheKey, out string cachedData))
-            {
-             //   ViewBag.data=cachedData;
-                return Ok(cachedData);
-            }
-            else 
-            {
+              
                 var cacheEntryOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration
-                    (new DateTime(2024, 08, 30, 10, 17, 10));
+                    (new DateTime(2024, 08, 30, 10, 37,0));
                 //var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromHours(1));
                 
                 var data= "Welcome to app";
@@ -37,15 +29,15 @@ namespace CachingDemo.Controllers
                  _cache.Set(cacheKey,data, cacheEntryOptions);
 
                 return RedirectToAction("Privacy");
-            }
-            
+                      
            
         }
 
         public IActionResult Privacy()
         {
             string mydata = (string)_cache.Get(cacheKey);
-            return Ok(mydata);
+            ViewBag.pdata = mydata;
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
